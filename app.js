@@ -48,9 +48,22 @@ window.onload = () => {
                                     .then(function(response){
                                         return response.json();
                                     })
-                                    .then(function(pokemonsito){
-                                        document.querySelector('#damagerelation').innerHTML = getDoubleDamageRelations(pokemonsito); 
-                                        console.log(getDoubleDamageRelations(pokemonsito))
+                                    .then(async function(pokemonsito){
+                                        document.querySelector('#damagerelation1').innerHTML = await getDoubleDamageRelations(pokemonsito); 
+                                        document.querySelector('#damagerelation2').innerHTML = await makeDoubleDamageRelations(pokemonsito);
+                                        document.querySelector('#damagerelation3').innerHTML = await getHalfDamageRelations(pokemonsito);
+                                        document.querySelector('#damagerelation4').innerHTML = await makeHalfDamageRelations(pokemonsito);
+                                    })
+                                });
+                                document.querySelector('#tomodal').addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    $('#cuaModal').modal('show');
+                                    fetch(pokemon.url)
+                                    .then(function(response){
+                                        return response.json();
+                                    })
+                                    .then(async function(pokemonsito){
+                                        document.querySelector('#pokemonabi').innerHTML = await getPokeAbi(pokemonsito);
                                     })
                                 });
                             })
@@ -84,19 +97,84 @@ window.onload = () => {
         return move;
     }
 
-        function getDoubleDamageRelations(pokemon) {
-        let doubledamage = 'Double damage : '
-        pokemon.types.map(function(type){
-            fetch(type.type.url) 
+    async function getDoubleDamageRelations(pokemon) {
+        let doubledamage = 'Get double damage : '
+        await Promise.all(pokemon.types.map(function(type){
+            return fetch(type.type.url) 
                 .then(function(response){
                     return response.json();
                 })
                 .then(function (data) {
                     data.damage_relations.double_damage_from.forEach(function(data){
                         doubledamage += ` ${data.name}`
-                    }) 
+                    })
                 })
-        })
+        }))
         return doubledamage;
+    }
+
+    async function makeDoubleDamageRelations(pokemon) {
+        let doubledamage = 'Make double damage : '
+        await Promise.all(pokemon.types.map(function(type){
+            return fetch(type.type.url) 
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function (data) {
+                    data.damage_relations.double_damage_to.forEach(function(data){
+                        doubledamage += ` ${data.name}`
+                    })
+                })
+        }))
+        return doubledamage;
+    }
+
+    async function getHalfDamageRelations(pokemon) {
+        let halfdamage = 'Get half damage : '
+        await Promise.all(pokemon.types.map(function(type){
+            return fetch(type.type.url) 
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function (data) {
+                    data.damage_relations.half_damage_to.forEach(function(data){
+                        halfdamage += ` ${data.name}`
+                    })
+                })
+        }))
+        return halfdamage;
+    }
+
+    async function makeHalfDamageRelations(pokemon) {
+        let halfdamage = 'Make half damage : '
+        await Promise.all(pokemon.types.map(function(type){
+            return fetch(type.type.url) 
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function (data) {
+                    data.damage_relations.half_damage_to.forEach(function(data){
+                        halfdamage += ` ${data.name}`
+                    })
+                })
+        }))
+        return halfdamage;
+    }
+
+    async function getPokeAbi(pokemon) {
+        let abi = 'All pokemons with this ability : '
+        await Promise.all(pokemon.abilities.map(function(ability){
+            return fetch(ability.ability.url) 
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function (data) {
+                    data.pokemon.forEach(function(data){
+                        abi += ` ${data.pokemon.name} / `
+                        console.log(abi);
+                    })
+                })
+        }))
+        return abi;
     }
 }

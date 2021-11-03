@@ -43,8 +43,11 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
+          <button type="button" id="tomodal" class="btn btn-info" data-dismiss="modal">
+            Pokemons with this ability!
+          </button>
           <button type="button" id="intomodal" class="btn btn-info" data-dismiss="modal">
-            I wanna see more!
+            Damage Relations!
           </button>
         </div>
       </div>
@@ -61,7 +64,30 @@
           </button>
         </div>
         <div class="modal-body">
-          <div id="damagerelation"></div>
+          <div id="damagerelation1"></div>
+          <div id="damagerelation2"></div>
+          <div id="damagerelation3"></div>
+          <div id="damagerelation4"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="cuaModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pokemonName"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="pokemonabi"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
